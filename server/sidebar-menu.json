@@ -1,0 +1,160 @@
+[
+	{
+		"text": "总体分析",
+		"sref": "#",
+		"icon": "icon-globe",
+		"submenu": 
+		[
+			{
+				"text": "平台数据展示",
+				"sref": "app.total",
+				"translate": "sidebar.nav.Total.Total_show"
+			},
+
+			{
+				"text": "总体情况分析",
+				"sref": "app.total",
+				"translate": "sidebar.nav.Total.Total_analyze"
+			},
+
+			{
+				"text": "渠道分析",
+				"sref": "app.total",
+				"translate": "sidebar.nav.Total.Total_platform"
+			},
+
+			{
+				"text": "双十一/双十二分析",
+				"sref": "app.total",
+				"translate": "sidebar.nav.Total.Total_festival"
+			}
+		],
+
+		"translate": "sidebar.nav.Total.MENU"
+	},
+
+	{
+		"text": "虚假交易分析",
+		"sref": "#",
+		"icon": "icon-key",
+		"submenu": 
+		[
+			{
+				"sref": "app.trade",
+				"translate": "sidebar.nav.Trade.Trade_TaD"
+			},
+
+			{
+				"sref": "app.trade",
+				"translate": "sidebar.nav.Trade.Trade_TaD2"
+			},
+
+			{
+				"sref": "app.trade",
+				"translate": "sidebar.nav.Trade.Trade_TP"
+			},
+
+			{
+				"sref": "app.trade",
+				"translate": "sidebar.nav.Trade.Trade_PC"
+			},
+
+			{
+				"sref": "app.trade",
+				"translate": "sidebar.nav.Trade.Trade_TiD"
+			},
+
+			{
+				"sref": "app.trade",
+				"translate": "sidebar.nav.Trade.Trade_TCh"
+			},
+
+			{
+				"sref": "app.trade",
+				"translate": "sidebar.nav.Trade.Trade_TCo"
+			},
+
+			{
+				"sref": "app.trade",
+				"translate": "sidebar.nav.Trade.Trade_MD"
+			},
+
+			{
+				"sref": "app.trade",
+				"translate": "sidebar.nav.Trade.Trade_MCD"
+			}
+		],
+
+		"translate": "sidebar.nav.Trade.MENU"
+	},
+
+	{
+		"text": "攻击者行为分析",
+		"sref": "#",
+		"icon": "icon-key",
+		"submenu": 
+		[
+			{
+				"sref": "app.behavior",
+				"translate": "sidebar.nav.Behavior.Behavior_TtD"
+			},
+
+			{
+				"sref": "app.behavior",
+				"translate": "sidebar.nav.Behavior.Behavior_AdD"
+			},
+
+			{
+				"sref": "app.behavior",
+				"translate": "sidebar.nav.Behavior.Behavior_AdAf"
+			},
+
+			{
+				"sref": "app.behavior",
+				"translate": "sidebar.nav.Behavior.Behavior_AfU"
+			}
+		],
+
+		"translate": "sidebar.nav.Behavior.MENU"
+	},
+
+	{
+		"text": "用户画像",
+		"sref": "#",
+		"icon": "icon-key",
+		"submenu": 
+		[
+			{
+				"sref": "app.portrayal",
+				"translate": "sidebar.nav.Portrayal.Portrayal_radar"
+			},
+
+			{
+				"sref": "app.portrayal",
+				"translate": "sidebar.nav.Portrayal.Portrayal_cloud"
+			},
+
+			{
+				"sref": "app.portrayal",
+				"translate": "sidebar.nav.Portrayal.Portrayal_connection"
+			}
+		],
+
+		"translate": "sidebar.nav.Portrayal.MENU"
+	},
+
+	{
+		"text": "预测",
+		"sref": "#",
+		"icon": "icon-key",
+		"submenu": 
+		[
+			{
+				"sref": "app.others",
+				"translate": "sidebar.nav.Others.other1"
+			}
+		],
+
+		"translate": "sidebar.nav.Others.MENU"
+	}
+]

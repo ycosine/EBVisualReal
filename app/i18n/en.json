@@ -1,0 +1,52 @@
+{
+  "dashboard": {
+    "WELCOME": "Welcome to {{appName}}"
+  },
+  "topbar": {
+    "search": {
+      "PLACEHOLDER": "Type and hit enter.."
+    }
+  },
+  "sidebar": {
+    "WELCOME": "欢迎使用本系统",
+    "nav": {
+      "Total": {
+      	"MENU": "总体分析",
+        "Total_show": "平台数据展示",
+        "Total_analyze": "平台数据分析",
+        "Total_platform": "平台渠道分析",
+        "Total_festival": "双十一/双十二"
+      },
+      "Trade": {
+      	"MENU": "虚假交易分析",
+        "Trade_TaD": "虚拟任务与实际任务分布",
+        "Trade_TaD2": "来路、购物车、快递人物占比",
+        "Trade_TP": "任务价格类型",
+        "Trade_PC": "价格高低与是否改价的对比",
+        "Trade_TiD": "任务好评时间分布",
+        "Trade_TCh": "拍前聊(旺旺/旺信)占比",
+        "Trade_TCo": "收藏宝贝和店铺",
+        "Trade_MD": "交易金额分布",
+        "Trade_MCD": "金额-成本分布"
+      },
+      "Behavior": {
+      	"MENU": "攻击者行为分析",
+        "Behavior_TtD": "任务持续时间分布",
+        "Behavior_AdD": "攻击持续度分布",
+        "Behavior_AdAf": "持续攻击与攻击密度",
+        "Behavior_AfU": "攻击密度与用户经验值关系"
+      },
+      "Portrayal": {
+      	"MENU": "用户画像",
+        "Portrayal_radar": "用户雷达图",
+        "Portrayal_cloud": "云字符",
+        "Portrayal_connection": "任务关系图"
+      },
+      "Others": {
+      	"MENU": "预测",
+        "other1": "密度聚类：最具有刷单用户的特征集群做预测"
+      }
+
+    }
+  }
+}
