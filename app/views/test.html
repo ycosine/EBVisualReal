@@ -1,23 +1,68 @@
- <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
- <script src="vendor/echarts/echarts-all.js"></script>
- <form class="form-inline">
+<form class="form-horizontal" ng-controller="ChartFormCtrl as form">
 	<div class="form-group">
-		<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-		<div class="input-group input-group-sm">
-			<div class="input-group-addon">金额区间</div>
-			<input type="text" class="form-control" id="exampleInputAmount" placeholder="0-100">
+		<label class="col-md-1 control-label"><i class="icon-calendar"></i> 时间区间:</label>
+		<div class="col-md-2">
+			<a class="btn btn-default" role="button" >11.11-today</a>
+			<a class="btn btn-default" ui-sref="app.home" role="button">本月</a>
+			<a class="btn btn-default" ui-sref="app.home" role="button">上月</a>
 		</div>
-		<div class="input-group input-group-sm">
-					<span class="input-group-addon"><i class="icon-calendar"></i> 起始时间</span>
-					<input type="text" id="datepicker" class="form-control" />
-					<span class="input-group-addon"><i class="icon-calendar"></i> 结束时间</span>
-					<input type="text" id="datepicker" class="form-control" />
+		<div class="col-md-2">
+			<p class="input-group">
+				<input type="text" name="date" required="" datepicker-popup="{{form.format}}" ng-model="form.date" is-open="form.opened" min-date="form.minDate" max-date="'2019-12-22'" datepicker-options="form.dateOptions" date-disabled="form.disabled(date, mode)" close-text="Close"
+				class="form-control" placeholder="起始时间"/>
+				<span class="input-group-btn">
+                 <button type="button" ng-click="form.open($event)" class="btn btn-default">
+                 <em class="fa fa-calendar"></em>
+                 </button>
+              </span>
+			</p>
+		</div>
+		<div class="col-md-2">
+			<p class="input-group">
+				<input type="text" name="date" required="" datepicker-popup="{{form.format}}" ng-model="form.date" is-open="form.opened" min-date="form.minDate" max-date="'2019-12-22'" datepicker-options="form.dateOptions" date-disabled="form.disabled(date, mode)" close-text="Close"
+				class="form-control" placeholder="结束时间"/>
+				<span class="input-group-btn">
+                 <button type="button" ng-click="form.open($event)" class="btn btn-default">
+                 <em class="fa fa-calendar"></em>
+                 </button>
+              </span>
+			</p>
+		</div>
+		<label class="col-md-1 control-label"><i class="icon-calendar"></i> 时间密度:</label>
+		<div class="col-md-1">
+			<slider ng-model="form.slider1" min="5" max="20" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
+		</div>
+		<div class="col-md-1">
+			<input type="text" class="form-control" ng-model="form.slider1" ng-bind="form.slider1" placeholder="10" />
 		</div>
 	</div>
+	<div class="form-group">
+		<label class="col-md-1 control-label"><i class="icon-diamond"></i> 金额区间:</label>
+		<div class="col-md-3">
+			<a class="btn btn-default" href="#" role="button">0-100</a>
+			<a class="btn btn-default" href="#" role="button">0-300</a>
+			<a class="btn btn-default" href="#" role="button">0-500</a>
+			<a class="btn btn-default" href="#" role="button">0-1000</a>
+			<a class="btn btn-default" href="#" role="button">1000以上</a>
+		</div>
+		<label class="col-md-1 control-label"><i class="icon-diamond"></i> 其他金额:</label>
+		<div class="col-md-1">
+			<input type="text" id="datepicker" class="form-control" placeholder="起始价格" />
+		</div>
+		<div class="col-md-1">
+			<input type="text" id="datepicker" class="form-control" placeholder="终止价格" />
+		</div>
+		<label class="col-md-1 control-label"><i class="icon-diamond"></i> 金额密度:</label>
+		<div class="col-md-1">
+			<slider ng-model="form.slider2" min="5" max="20" step="1" orientation="horizontal" class="bs-slider slider-horizontal"></slider>
+		</div>
+		<div class="col-md-1">
+			<input type="text" class="form-control" ng-model="form.slider2" ng-bind="form.slider2"/>
+		</div>
+	</div>
+	<div class="form-group"></div>
 </form>
 
-
-<div class="row">
- 		<div id="main" style="height:400px;"></div>
+<div class="col-md-10">
+	<div id="echartsBox" style="height:600px;"></div>
 </div>
-

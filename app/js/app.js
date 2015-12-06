@@ -24,6 +24,7 @@
             'app.preloader',
             'app.loadingbar',
             'app.translate',
+            'app.forms',
             'app.settings',
             'app.utils'
         ]);
@@ -66,6 +67,12 @@
 
     angular
         .module('app.loadingbar', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms', []);
 })();
 (function() {
     'use strict';
@@ -304,10 +311,11 @@
           // jQuery based and standalone scripts
           scripts: {
             'modernizr':          ['vendor/modernizr/modernizr.js'],
+            'echarts':        	  ['vendor/echarts/echarts-all.js'],
             'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
                                    'vendor/simple-line-icons/css/simple-line-icons.css'],
-            'jquery-ui':          ['vendor/jquery-ui/ui/datepicker.js',
-            						'vendor/jquery-ui/ui/core.js',
+            'datePicker':         ['vendor/jquery-ui/ui/datepicker.js'],
+            'jquery-ui':          ['vendor/jquery-ui/ui/core.js',
                                    'vendor/jquery-ui/ui/widget.js'],
                                    // loads only jquery required modules and touch support
             'jquery-ui-widgets':  ['vendor/jquery-ui/ui/core.js',
@@ -320,8 +328,11 @@
           },
           // Angular based script (use the right module name)
           modules: [
-            // {name: 'toaster', files: ['vendor/angularjs-toaster/toaster.js', 'vendor/angularjs-toaster/toaster.css']}
-            {name: 'ui.select',  files: ['vendor/angular-ui-select/dist/select.js','vendor/angular-ui-select/dist/select.css']}
+            {name: 'ui.select',  files: ['vendor/angular-ui-select/dist/select.js','vendor/angular-ui-select/dist/select.css']},
+            
+            {name: 'ui.bootstrap-slider', files: ['vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js',
+                                                        'vendor/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css',
+                                                        'vendor/angular-bootstrap-slider/slider.js']}
           ]
         })
         ;
@@ -718,9 +729,9 @@
                }
               },
               title: '总体分析',
-/*              controller: 'uiSelectController',
-              controllerAs: 'uisel',*/
-              resolve: helper.resolveFor('jquery-ui')
+              /*controller: 'ChartFormCtrl',
+              controllerAs: 'chartCtrl',*/
+              resolve: helper.resolveFor('datePicker','jquery-ui','echarts','ui.bootstrap-slider')
           })
           
           .state('app.trade', {
@@ -1709,4 +1720,120 @@
 })();
 
 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms')
+        .controller('ChartFormCtrl', ChartFormCtrl);
+
+    ChartFormCtrl.$inject = ['$resource'];
+    function ChartFormCtrl() {
+        var vm = this;
+
+        activate();
+        chartInit();
+        function activate() {
+          // Slider demo values
+          vm.slider1 = 5;
+          vm.slider2 = 10;
+          
+          vm.today = function() {
+            vm.dt = new Date();
+          };
+          vm.today();
+          vm.clear = function () {
+            vm.dt = null;
+          };
+
+          // Disable weekend selection
+          vm.disabled = function(date, mode) {
+            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+          };
+
+          vm.toggleMin = function() {
+            vm.minDate = vm.minDate ? null : new Date();
+          };
+          vm.toggleMin();
+
+          vm.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            vm.opened = true;
+          };
+
+          vm.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+          };
+
+          vm.initDate = new Date('2019-10-20');
+          vm.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+          vm.format = vm.formats[0];
+
+
+        }
+        function chartInit(){
+        	var myChart = echarts.init(document.getElementById('echartsBox'));
+	        var option = {
+    legend: {
+        data:['高度(km)与气温(°C)变化关系']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    tooltip : {
+        trigger: 'axis',
+        formatter: "Temperature : <br/>{b}km : {c}°C"
+    },
+    xAxis : [
+        {
+            type : 'value',
+            axisLabel : {
+                formatter: '{value} °C'
+            }
+        }
+    ],
+    yAxis : [
+        {
+            type : 'category',
+            axisLine : {onZero: false},
+            axisLabel : {
+                formatter: '{value} km'
+            },
+            boundaryGap : false,
+            data : ['0', '10', '20', '30', '40', '50', '60', '70', '80']
+        }
+    ],
+    series : [
+        {
+            name:'高度(km)与气温(°C)变化关系',
+            type:'line',
+            smooth:true,
+            itemStyle: {
+                normal: {
+                    lineStyle: {
+                        shadowColor : 'rgba(0,0,0,0.4)'
+                    }
+                }
+            },
+            data:[15, -50, -56.5, -46.5, -22.1, -2.5, -27.7, -55.7, -76.5]
+        }
+    ]
+};
+                    
+	        myChart.setOption(option);
+        }
+      
+    }
+})();
 
