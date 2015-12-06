@@ -7,25 +7,25 @@
 		[
 			{
 				"text": "平台数据展示",
-				"sref": "app.total",
+				"sref": "app.total.Total_show",
 				"translate": "sidebar.nav.Total.Total_show"
 			},
 
 			{
 				"text": "总体情况分析",
-				"sref": "app.total",
+				"sref": "app.total.Total_analyze",
 				"translate": "sidebar.nav.Total.Total_analyze"
 			},
 
 			{
 				"text": "渠道分析",
-				"sref": "app.total",
+				"sref": "app.total.Total_platform",
 				"translate": "sidebar.nav.Total.Total_platform"
 			},
 
 			{
 				"text": "双十一/双十二分析",
-				"sref": "app.total",
+				"sref": "app.total.Total_festival",
 				"translate": "sidebar.nav.Total.Total_festival"
 			}
 		],
@@ -36,51 +36,51 @@
 	{
 		"text": "虚假交易分析",
 		"sref": "#",
-		"icon": "icon-key",
+		"icon": "icon-graph",
 		"submenu": 
 		[
 			{
-				"sref": "app.trade",
+				"sref": "app.trade.Trade_TaD",
 				"translate": "sidebar.nav.Trade.Trade_TaD"
 			},
 
 			{
-				"sref": "app.trade",
+				"sref": "app.trade.Trade_TaD2",
 				"translate": "sidebar.nav.Trade.Trade_TaD2"
 			},
 
 			{
-				"sref": "app.trade",
+				"sref": "app.trade.Trade_TP",
 				"translate": "sidebar.nav.Trade.Trade_TP"
 			},
 
 			{
-				"sref": "app.trade",
+				"sref": "app.trade.Trade_PC",
 				"translate": "sidebar.nav.Trade.Trade_PC"
 			},
 
 			{
-				"sref": "app.trade",
+				"sref": "app.trade.Trade_TiD",
 				"translate": "sidebar.nav.Trade.Trade_TiD"
 			},
 
 			{
-				"sref": "app.trade",
+				"sref": "app.trade.Trade_TCh",
 				"translate": "sidebar.nav.Trade.Trade_TCh"
 			},
 
 			{
-				"sref": "app.trade",
+				"sref": "app.trade.Trade_TCo",
 				"translate": "sidebar.nav.Trade.Trade_TCo"
 			},
 
 			{
-				"sref": "app.trade",
+				"sref": "app.trade.Trade_MD",
 				"translate": "sidebar.nav.Trade.Trade_MD"
 			},
 
 			{
-				"sref": "app.trade",
+				"sref": "app.trade.Trade_MCD",
 				"translate": "sidebar.nav.Trade.Trade_MCD"
 			}
 		],
@@ -95,22 +95,22 @@
 		"submenu": 
 		[
 			{
-				"sref": "app.behavior",
+				"sref": "app.behavior.Behavior_TtD",
 				"translate": "sidebar.nav.Behavior.Behavior_TtD"
 			},
 
 			{
-				"sref": "app.behavior",
+				"sref": "app.behavior.Behavior_AdD",
 				"translate": "sidebar.nav.Behavior.Behavior_AdD"
 			},
 
 			{
-				"sref": "app.behavior",
+				"sref": "app.behavior.Behavior_AdAf",
 				"translate": "sidebar.nav.Behavior.Behavior_AdAf"
 			},
 
 			{
-				"sref": "app.behavior",
+				"sref": "app.behavior.Behavior_AfU",
 				"translate": "sidebar.nav.Behavior.Behavior_AfU"
 			}
 		],
@@ -121,21 +121,21 @@
 	{
 		"text": "用户画像",
 		"sref": "#",
-		"icon": "icon-key",
+		"icon": "icon-graduation",
 		"submenu": 
 		[
 			{
-				"sref": "app.portrayal",
+				"sref": "app.portrayal.Portrayal_radar",
 				"translate": "sidebar.nav.Portrayal.Portrayal_radar"
 			},
 
 			{
-				"sref": "app.portrayal",
+				"sref": "app.portrayal.Portrayal_cloud",
 				"translate": "sidebar.nav.Portrayal.Portrayal_cloud"
 			},
 
 			{
-				"sref": "app.portrayal",
+				"sref": "app.portrayal.Portrayal_connection",
 				"translate": "sidebar.nav.Portrayal.Portrayal_connection"
 			}
 		],
@@ -146,11 +146,11 @@
 	{
 		"text": "预测",
 		"sref": "#",
-		"icon": "icon-key",
+		"icon": "icon-chemistry",
 		"submenu": 
 		[
 			{
-				"sref": "app.others",
+				"sref": "app.others.other1",
 				"translate": "sidebar.nav.Others.other1"
 			}
 		],

@@ -305,11 +305,23 @@
           scripts: {
             'modernizr':          ['vendor/modernizr/modernizr.js'],
             'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
-                                   'vendor/simple-line-icons/css/simple-line-icons.css']
+                                   'vendor/simple-line-icons/css/simple-line-icons.css'],
+            'jquery-ui':          ['vendor/jquery-ui/ui/datepicker.js',
+            						'vendor/jquery-ui/ui/core.js',
+                                   'vendor/jquery-ui/ui/widget.js'],
+                                   // loads only jquery required modules and touch support
+            'jquery-ui-widgets':  ['vendor/jquery-ui/ui/core.js',
+                                   'vendor/jquery-ui/ui/widget.js',
+                                   'vendor/jquery-ui/ui/mouse.js',
+                                   'vendor/jquery-ui/ui/draggable.js',
+                                   'vendor/jquery-ui/ui/droppable.js',
+                                   'vendor/jquery-ui/ui/sortable.js',
+                                   'vendor/jqueryui-touch-punch/jquery.ui.touch-punch.min.js'],
           },
           // Angular based script (use the right module name)
           modules: [
             // {name: 'toaster', files: ['vendor/angularjs-toaster/toaster.js', 'vendor/angularjs-toaster/toaster.css']}
+            {name: 'ui.select',  files: ['vendor/angular-ui-select/dist/select.js','vendor/angular-ui-select/dist/select.css']}
           ]
         })
         ;
@@ -667,7 +679,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/singleview');
+        $urlRouterProvider.otherwise('/app/home');
 
         // 
         // Application Routes
@@ -679,7 +691,7 @@
               templateUrl: helper.basepath('app.html'),
               resolve: helper.resolveFor('modernizr', 'icons')
           })
-          .state('app.singleview', {
+          .state('app.home', {
               url: '/home',
               title: '欢迎页面',
               templateUrl: helper.basepath('welcome.html')
@@ -689,10 +701,37 @@
               title: '总体分析',
               templateUrl: helper.basepath('total.html')
           })
+          .state('app.total.Total_show', {
+              url: '/Total_show',
+              title: '总体分析',
+              views:{ 
+                'main@app.total':{
+                    templateUrl:helper.basepath('charts.html')
+               }
+            }
+          })
+          .state('app.total.Total_analyze', {
+              url: '/Total_analyze',
+              views:{ 
+                'main@app.total':{
+                    templateUrl:helper.basepath('test.html')
+               }
+              },
+              title: '总体分析',
+/*              controller: 'uiSelectController',
+              controllerAs: 'uisel',*/
+              resolve: helper.resolveFor('jquery-ui')
+          })
+          
           .state('app.trade', {
               url: '/trade',
               title: '虚假交易分析',
               templateUrl: helper.basepath('trade.html')
+          })
+          .state('app.trade.Trade_TaD', {
+              url: '/test',
+              title: '虚假交易分析',
+              templateUrl: helper.basepath('test.html')
           })
           .state('app.behavior', {
               url: '/behavior',
@@ -1668,3 +1707,6 @@
         }
     }
 })();
+
+
+
