@@ -312,6 +312,7 @@
           scripts: {
             'modernizr':          ['vendor/modernizr/modernizr.js'],
             'echarts':        	  ['vendor/echarts/echarts-all.js'],
+            'formater':        	  ['vendor/formater/DRformater.js'],
             'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
                                    'vendor/simple-line-icons/css/simple-line-icons.css'],
             'datePicker':         ['vendor/jquery-ui/ui/datepicker.js'],
@@ -731,7 +732,7 @@
               title: '总体分析',
               /*controller: 'ChartFormCtrl',
               controllerAs: 'chartCtrl',*/
-              resolve: helper.resolveFor('datePicker','jquery-ui','echarts','ui.bootstrap-slider')
+              resolve: helper.resolveFor('datePicker','jquery-ui','echarts','formater','ui.bootstrap-slider')
           })
           
           .state('app.trade', {
@@ -1706,134 +1707,191 @@
 
     Controller.$inject = ['$log'];
     function Controller($log) {
-        // for controllerAs syntax
-        // var vm = this;
-
         activate();
-
-        ////////////////
-
         function activate() {
           $log.log('I\'m a line from custom.js');
         }
     }
 })();
+(function() {
+	'use strict';
 
+	angular
+		.module('app.forms')
+		.factory('ChartDataService', function($http) {
+			var ChartDataService = {};
+			ChartDataService.test = "123";
+			ChartDataService.parser = {
+				getOption :function(){
+					console.log("that.parser.getOption()");
+				}
+			};
+			ChartDataService.setFormater = function(formater){
+				this.parser = formater;
+			};
+			ChartDataService.parser.prototype = {
+				getJsonValue : function getJsonValue(source, keys) {
+					return keys.map(function(element) {
+						return source[element];
+					});
+				},
+				/**
+				 * 从json对象中按for-in的顺序遍历，获得key数组
+				 * @param {Object} source  json对象
+				 */
+
+				getJsonKey : function getJsonKey(source) {
+					if (typeof source == 'object' && source !== null) {
+						var result = [];
+						for (var key in source) {
+							if (source.hasOwnProperty(key)) {
+								result.push(key);
+							}
+						}
+					}
+					return result;
+				},
+				/**
+				 * 按照某种方式合并两个数组
+				 * 方式 type:
+				 * 	1.order 顺序合并 例如 arr1=[1,2,3,4] arr2=['a','b','c','d'],合并后是[[1,'a'],[2,'b'],[3,'c'],[4,'d']]
+				 *  2.model 顺序合并成对象 ？问题，没有合适的对象模型参数
+				 */
+
+				mergeArr : function mergeArr(arr1, arr2) {
+					var result = arr1.map(function(element, index) {
+						var temp = [];
+						temp.push(element);
+						temp.push(arr2[index]);
+						return temp;
+					});
+					return result;
+				}
+			};
+			ChartDataService.getOption = function(formOption) {
+				var that = this;
+				console.log(formOption);
+				that.parser.getOption();
+
+				/*return $http
+					.post('LoginServlet', formOption)
+					.then(function(res) {
+							
+						return that.parser.getOption(res.data);
+					});*/
+			};
+
+			return ChartDataService;
+		});
+
+})();
 
 (function() {
-    'use strict';
+	'use strict';
 
-    angular
-        .module('app.forms')
-        .controller('ChartFormCtrl', ChartFormCtrl);
+	angular
+		.module('app.forms')
+		.controller('ChartFormCtrl', ChartFormCtrl);
 
-    ChartFormCtrl.$inject = ['$resource'];
-    function ChartFormCtrl() {
-        var vm = this;
+	ChartFormCtrl.$inject = ['ChartDataService'];
 
-        activate();
-        chartInit();
-        function activate() {
-          // Slider demo values
-          vm.slider1 = 5;
-          vm.slider2 = 10;
-          
-          vm.today = function() {
-            vm.dt = new Date();
-          };
-          vm.today();
-          vm.clear = function () {
-            vm.dt = null;
-          };
+	function ChartFormCtrl(ChartDataService) {
+		var vm = this;
+		//chartOptions
+	
+		console.log(echarts);
+		// Slider 
+		vm.slider1 = 5;
+		vm.slider2 = 10;
+		// DatePicker ---models: date1 date2
+		vm.today = function() {
+			vm.dt = new Date();
+		};
+		vm.clear = function() {
+			vm.dt = null;
+		};
+		vm.openstart = function($event) {
+			$event.preventDefault();
+			$event.stopPropagation();
 
-          // Disable weekend selection
-          vm.disabled = function(date, mode) {
-            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-          };
+			vm.opened1 = true;
+		};
+		vm.openend = function($event) {
+			$event.preventDefault();
+			$event.stopPropagation();
+			vm.opened2 = true;
+		};
+		vm.dateOptions = {
+			formatYear: 'yy',
+			startingDay: 1
+		};
+		vm.initDate = new Date('2019-10-20');
+		vm.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+		vm.format = vm.formats[1];
 
-          vm.toggleMin = function() {
-            vm.minDate = vm.minDate ? null : new Date();
-          };
-          vm.toggleMin();
+		//charts 
+		vm.myChart = echarts.init(document.getElementById('echartsBox'));
+		vm.option = {
+			legend: {
+				data: ['高度(km)与气温(°C)变化关系']
+			},
+			calculable: true,
+			tooltip: {
+				trigger: 'axis',
+				formatter: "Temperature : <br/>{b}km : {c}°C"
+			},
+			xAxis: [{
+				type: 'value',
+				axisLabel: {
+					formatter: '{value} °C'
+				}
+			}],
+			yAxis: [{
+				type: 'category',
+				axisLine: {
+					onZero: false
+				},
+				axisLabel: {
+					formatter: '{value} km'
+				},
+				boundaryGap: false,
+				data: ['0', '10', '20', '30', '40', '50', '60', '70', '80']
+			}],
+			series: [{
+				name: '高度(km)与气温(°C)变化关系',
+				type: 'line',
+				smooth: true,
+				itemStyle: {
+					normal: {
+						lineStyle: {
+							shadowColor: 'rgba(0,0,0,0.4)'
+						}
+					}
+				},
+				data: [15, -50, -56.5, -46.5, -22.1, -2.5, -27.7, -55.7, -76.5]
+			}]
+		};
+		//update Event
+		vm.getChart = function() {
+			var formOption = {
+				formName: "",
+				startTime: vm.datestart,
+				endTime: vm.dateend
+			};
+			ChartDataService.getOption(formOption).then(function(option) {
+				vm.updateChart(option);
+			})
+		};
+		vm.updateChart = function(updateOption) {
+			vm.myChart.setOption(updateOption);
+		};
+		activate();
 
-          vm.open = function($event) {
-            $event.preventDefault();
-            $event.stopPropagation();
-
-            vm.opened = true;
-          };
-
-          vm.dateOptions = {
-            formatYear: 'yy',
-            startingDay: 1
-          };
-
-          vm.initDate = new Date('2019-10-20');
-          vm.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-          vm.format = vm.formats[0];
+		function activate() {
+			vm.updateChart(vm.option);
+		}
 
 
-        }
-        function chartInit(){
-        	var myChart = echarts.init(document.getElementById('echartsBox'));
-	        var option = {
-    legend: {
-        data:['高度(km)与气温(°C)变化关系']
-    },
-    toolbox: {
-        show : true,
-        feature : {
-            mark : {show: true},
-            dataView : {show: true, readOnly: false},
-            magicType : {show: true, type: ['line', 'bar']},
-            restore : {show: true},
-            saveAsImage : {show: true}
-        }
-    },
-    calculable : true,
-    tooltip : {
-        trigger: 'axis',
-        formatter: "Temperature : <br/>{b}km : {c}°C"
-    },
-    xAxis : [
-        {
-            type : 'value',
-            axisLabel : {
-                formatter: '{value} °C'
-            }
-        }
-    ],
-    yAxis : [
-        {
-            type : 'category',
-            axisLine : {onZero: false},
-            axisLabel : {
-                formatter: '{value} km'
-            },
-            boundaryGap : false,
-            data : ['0', '10', '20', '30', '40', '50', '60', '70', '80']
-        }
-    ],
-    series : [
-        {
-            name:'高度(km)与气温(°C)变化关系',
-            type:'line',
-            smooth:true,
-            itemStyle: {
-                normal: {
-                    lineStyle: {
-                        shadowColor : 'rgba(0,0,0,0.4)'
-                    }
-                }
-            },
-            data:[15, -50, -56.5, -46.5, -22.1, -2.5, -27.7, -55.7, -76.5]
-        }
-    ]
-};
-                    
-	        myChart.setOption(option);
-        }
-      
-    }
+	}
 })();
 
