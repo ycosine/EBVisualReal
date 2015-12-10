@@ -312,7 +312,7 @@
           scripts: {
             'modernizr':          ['vendor/modernizr/modernizr.js'],
             'echarts':        	  ['vendor/echarts/echarts-all.js'],
-            'formater':        	  ['vendor/formater/DRformater.js'],
+            'formater':        	  ['vendor/formater/Myformater-all.js'],
             'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
                                    'vendor/simple-line-icons/css/simple-line-icons.css'],
             'datePicker':         ['vendor/jquery-ui/ui/datepicker.js'],
@@ -1718,67 +1718,37 @@
 
 	angular
 		.module('app.forms')
-		.factory('ChartDataService', function($http) {
+		.factory('ChartDataService', function($http,ParserFactory) {
 			var ChartDataService = {};
-			ChartDataService.test = "123";
+			var factory = ParserFactory;
 			ChartDataService.parser = {
-				getOption :function(){
-					console.log("that.parser.getOption()");
+				createOption :function(){
+					console.log("ChartDataService.createOption()");
 				}
 			};
-			ChartDataService.setFormater = function(formater){
-				this.parser = formater;
+			ChartDataService.importParser = function(formName){
+				var parser = factory.createParser(formName);
+				this.setParser(parser);
 			};
-			ChartDataService.parser.prototype = {
-				getJsonValue : function getJsonValue(source, keys) {
-					return keys.map(function(element) {
-						return source[element];
-					});
-				},
-				/**
-				 * 从json对象中按for-in的顺序遍历，获得key数组
-				 * @param {Object} source  json对象
-				 */
-
-				getJsonKey : function getJsonKey(source) {
-					if (typeof source == 'object' && source !== null) {
-						var result = [];
-						for (var key in source) {
-							if (source.hasOwnProperty(key)) {
-								result.push(key);
-							}
-						}
-					}
-					return result;
-				},
-				/**
-				 * 按照某种方式合并两个数组
-				 * 方式 type:
-				 * 	1.order 顺序合并 例如 arr1=[1,2,3,4] arr2=['a','b','c','d'],合并后是[[1,'a'],[2,'b'],[3,'c'],[4,'d']]
-				 *  2.model 顺序合并成对象 ？问题，没有合适的对象模型参数
-				 */
-
-				mergeArr : function mergeArr(arr1, arr2) {
-					var result = arr1.map(function(element, index) {
-						var temp = [];
-						temp.push(element);
-						temp.push(arr2[index]);
-						return temp;
-					});
-					return result;
-				}
+			ChartDataService.setParser = function(parser){
+				this.parser = parser;
 			};
 			ChartDataService.getOption = function(formOption) {
 				var that = this;
 				console.log(formOption);
-				that.parser.getOption();
+				that.importParser(formOption.formName);
+				//根据表单名称，注入相应的formater
+				
+				//从服务器接收到的数据
+				var data = "servlet data";
+				that.parser.createOption(data);
 
 				/*return $http
 					.post('LoginServlet', formOption)
 					.then(function(res) {
 							
 						return that.parser.getOption(res.data);
-					});*/
+				});*/
 			};
 
 			return ChartDataService;
@@ -1813,7 +1783,6 @@
 		vm.openstart = function($event) {
 			$event.preventDefault();
 			$event.stopPropagation();
-
 			vm.opened1 = true;
 		};
 		vm.openend = function($event) {
@@ -1874,7 +1843,7 @@
 		//update Event
 		vm.getChart = function() {
 			var formOption = {
-				formName: "",
+				formName: "RAformater",
 				startTime: vm.datestart,
 				endTime: vm.dateend
 			};
