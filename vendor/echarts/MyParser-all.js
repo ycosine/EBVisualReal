@@ -6,11 +6,11 @@
 			var ParserFactory = (function() {
 				var createdParsers = {};
 				return {
-					createParser: function(formName, model) {
+					createParser: function(formName) {
 						if (createdParsers[formName]) {
-							return createdCars[formName];
+							return createParser[formName];
 						} else {
-							var parser = new BaseParser(formName, model);
+							var parser = new BaseParser(formName);
 							createdParsers[formName] = parser;
 							return parser;
 						}
@@ -74,10 +74,70 @@
 					var flag = true;
 
 				},
-				'TPformater': function() {
+				'total_analyze_parser': function() {
+					this.generateX = function() {
+						var result = this.data;
+						var data = [];
+						result.map(function(element) {
+							if(element.name=="攻击持续时间")
+							data = element.data;
+							return element;
+						});
+						var temp = [{
+							type: 'category',
+							show: false,
+							boundaryGap: false,
+							data: data
+				
+						}];
+						return temp;
+				
+					};
+					this.generateS = function() {
+						var result = this.data;
+						result = result.map(function(element) {
+							if(element.name=="任务密度"){
+								element.zlevel = 99;
+							}
+							element.type = 'line';
+							element.smooth = true;
+							element.symbol = 'none';
+							element.itemStyle = {
+								normal: {
+									areaStyle: {
+										type: 'default'
+									}
+								}
+							};
+							return element;
+						});
+						return result;
+					};
+
+					this.generateL = function() {
+						var result = this.data;
+						result = result.map(function(element) {
+							return element.name;
+						});
+						return result;
+				
+					};
+					this.setData = function(data){
+						this.data = data;
+					};
+					this.createOption = function(data) {
+						this.setData(data);
+						var option = {};
+						option.xAxis = this.generateX();
+						option.series = this.generateS();
+						var lobj = {};
+						lobj.data = this.generateL();
+						option.legend = lobj;
+						return option;
+					};
 
 				},
-				'Total_show_parser': function() {
+				'total_show_parser': function() {
 
 					this.createOption = function() {
 						console.log("RA-createOption");

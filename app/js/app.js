@@ -985,7 +985,7 @@
               title: '总体分析',
               views:{
               	'':{
-              		templateUrl: helper.basepath('total.html')
+              		templateUrl: helper.basepath('base.html')
 
               	},
                 'main@app.total':{
@@ -995,30 +995,33 @@
               resolve: helper.resolveFor('datePicker','jquery-ui','echarts','echarts-parser','ui.bootstrap-slider')
 
           })
-          .state('app.total.Total_show', {
-              url: '/Total_show',
+          .state('app.total.total_show', {
+              url: '/total_show',
               title: '平台数据展示'
 
           })
-          .state('app.total.Total_analyze', {
-              url: '/Total_analyze', 
+          .state('app.total.total_analyze', {
+              url: '/total_analyze', 
               title: '总体分析'
-          })
-          
-          .state('app.trade', {
-              url: '/trade',
-              title: '虚假交易分析',
-              templateUrl: helper.basepath('trade.html')
-          })
-          .state('app.trade.Trade_TaD', {
-              url: '/test',
-              title: '虚假交易分析',
-              templateUrl: helper.basepath('test.html')
           })
           .state('app.behavior', {
               url: '/behavior',
-              title: '虚假交易分析',
-              templateUrl: helper.basepath('behavior.html')
+              title: '攻击者行为分析',
+              views:{
+              	'':{
+              		templateUrl: helper.basepath('base.html')
+
+              	},
+                'main@app.total':{
+                    templateUrl:helper.basepath('chartBase.html')
+                }
+              },
+              resolve: helper.resolveFor('datePicker','jquery-ui','echarts','echarts-parser','ui.bootstrap-slider')
+          })
+          .state('app.behavior.behavior_AfU', {
+              url: '/behavior/behavior_AfU',
+              title: '攻击者行为分析',
+         
           })
           .state('app.portrayal', {
               url: '/portrayal',
@@ -1409,7 +1412,7 @@
               menuURL  = menuJson + '?v=' + (new Date().getTime()); // jumps cache
             
           onError = onError || function() { alert('Failure loading menu'); };
-
+ 
           $http
             .get(menuURL)
             .success(onReady)
@@ -1968,17 +1971,15 @@
 				that.importParser(formOption.formName+'_parser');
 				//根据表单名称，注入相应的Parser
 				
-				//从服务器接收到的数据
-				var data = "servlet data";
-				return that.parser.createOption(data);
-				/*  function load(source) {
-				          return $resource(source, {}, opts).get();
-				        }*/
-				/*return $http
-					.post('LoginServlet', formOption)
+				
+				
+				return $http
+					.post('userLifeCycleData', formOption)
 					.then(function(res) {
-						return that.parser.createOption(data);
-				});*/
+						console.log("success");
+						console.log(res);
+						return that.parser.createOption(res.data);
+				});
 			};
 
 			return ChartDataService;
@@ -1999,6 +2000,77 @@
 		$rootScope.$on('$stateChangeSuccess',function(){
 			vm.reset($rootScope.$state.current.name);
 		});
+		
+		/**
+         * 对一个object进行深度拷贝
+         * @memberOf module:zrender/tool/util
+         * @param {*} source 需要进行拷贝的对象
+         * @return {*} 拷贝后的新对象
+         */
+        function clone(source) {
+            if (typeof source == 'object' && source !== null) {
+                var result = source;
+                if (source instanceof Array) {
+                    result = [];
+                    for (var i = 0, len = source.length; i < len; i++) {
+                        result[i] = clone(source[i]);
+                    }
+                }
+                else if (
+                    !BUILTIN_OBJECT[objToString.call(source)]
+                    // 是否为 dom 对象
+                    && !isDom(source)
+                ) {
+                    result = {};
+                    for (var key in source) {
+                        if (source.hasOwnProperty(key)) {
+                            result[key] = clone(source[key]);
+                        }
+                    }
+                }
+
+                return result;
+            }
+
+            return source;
+        }
+
+        function mergeItem(target, source, key, overwrite) {
+            if (source.hasOwnProperty(key)) {
+                var targetProp = target[key];
+                if (typeof targetProp == 'object'
+                    && !BUILTIN_OBJECT[objToString.call(targetProp)]
+                    // 是否为 dom 对象
+                    && !isDom(targetProp)
+                ) {
+                    // 如果需要递归覆盖，就递归调用merge
+                    merge(
+                        target[key],
+                        source[key],
+                        overwrite
+                    );
+                }
+                else if (overwrite || !(key in target)) {
+                    // 否则只处理overwrite为true，或者在目标对象中没有此属性的情况
+                    target[key] = source[key];
+                }
+            }
+        }
+
+        /**
+         * 合并源对象的属性到目标对象
+         * @memberOf module:zrender/tool/util
+         * @param {*} target 目标对象
+         * @param {*} source 源对象
+         * @param {boolean} overwrite 是否覆盖
+         */
+        function merge(target, source, overwrite) {
+            for (var i in source) {
+                mergeItem(target, source, i, overwrite);
+            }
+            
+            return target;
+        }
 		
 		function subformName(url){
 			var index = url.lastIndexOf('.');
@@ -2039,9 +2111,8 @@
 		vm.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 		vm.format = vm.formats[1];
 
-		//charts 
+		//echarts events 
 		vm.chartThemes = [];
-		vm.myChart = echarts.init(document.getElementById('echartsBox'));
 		vm.option = {
 			legend: {
 				data: ['高度(km)与气温(°C)变化关系']
@@ -2082,28 +2153,24 @@
 				data: [15, -50, -56.5, -46.5, -22.1, -2.5, -27.7, -55.7, -76.5]
 			}]
 		};
+		vm.render = function(){
+			vm.myChart.clear();
+			vm.myChart.setOption(vm.option);
+		}
 		//update Event
-		vm.getChart = function() {
+		vm.generateChart = function() {
 			var formOption = {
 				formName: vm.formName,
 				startTime: vm.datestart,
 				endTime: vm.dateend
 			};
-			var option = ChartDataService.getOption(formOption);
-			vm.updateChart(option);
-			/*ChartDataService.getOption(formOption).then(function(option) {
-				vm.updateChart(option);
-			})*/
-		};
-		vm.updateChart = function(updateOption) {
-			vm.myChart.setOption(updateOption);
+			var dataOption = ChartDataService.getOption(formOption);
+			vm.myChart.setOption(dataOption);
 		};
 		
-		activate();
-
-		function activate() {
-			vm.getChart();
-		}
+		vm.myChart = echarts.init(document.getElementById('echartsBox'));
+		vm.generateChart();
+		
 	}
 })();
 

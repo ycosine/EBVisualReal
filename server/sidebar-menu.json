@@ -7,30 +7,30 @@
 		[
 			{
 				"text": "平台数据展示",
-				"sref": "app.total.Total_show",
-				"translate": "sidebar.nav.Total.Total_show"
+				"sref": "app.total.total_show",
+				"translate": "sidebar.nav.total.total_show"
 			},
 
 			{
 				"text": "总体情况分析",
-				"sref": "app.total.Total_analyze",
-				"translate": "sidebar.nav.Total.Total_analyze"
+				"sref": "app.total.total_analyze",
+				"translate": "sidebar.nav.total.total_analyze"
 			},
 
 			{
 				"text": "渠道分析",
-				"sref": "app.total.Total_platform",
-				"translate": "sidebar.nav.Total.Total_platform"
+				"sref": "app.total.total_platform",
+				"translate": "sidebar.nav.total.total_platform"
 			},
 
 			{
 				"text": "双十一/双十二分析",
-				"sref": "app.total.Total_festival",
-				"translate": "sidebar.nav.Total.Total_festival"
+				"sref": "app.total.total_festival",
+				"translate": "sidebar.nav.total.total_festival"
 			}
 		],
 
-		"translate": "sidebar.nav.Total.MENU"
+		"translate": "sidebar.nav.total.MENU"
 	},
 
 	{
@@ -40,52 +40,52 @@
 		"submenu": 
 		[
 			{
-				"sref": "app.trade.Trade_TaD",
-				"translate": "sidebar.nav.Trade.Trade_TaD"
+				"sref": "app.trade.trade_TaD",
+				"translate": "sidebar.nav.trade.trade_TaD"
 			},
 
 			{
-				"sref": "app.trade.Trade_TaD2",
-				"translate": "sidebar.nav.Trade.Trade_TaD2"
+				"sref": "app.trade.trade_TaD2",
+				"translate": "sidebar.nav.trade.trade_TaD2"
 			},
 
 			{
-				"sref": "app.trade.Trade_TP",
-				"translate": "sidebar.nav.Trade.Trade_TP"
+				"sref": "app.trade.trade_TP",
+				"translate": "sidebar.nav.trade.trade_TP"
 			},
 
 			{
-				"sref": "app.trade.Trade_PC",
-				"translate": "sidebar.nav.Trade.Trade_PC"
+				"sref": "app.trade.trade_PC",
+				"translate": "sidebar.nav.trade.trade_PC"
 			},
 
 			{
-				"sref": "app.trade.Trade_TiD",
-				"translate": "sidebar.nav.Trade.Trade_TiD"
+				"sref": "app.trade.trade_TiD",
+				"translate": "sidebar.nav.trade.trade_TiD"
 			},
 
 			{
-				"sref": "app.trade.Trade_TCh",
-				"translate": "sidebar.nav.Trade.Trade_TCh"
+				"sref": "app.trade.trade_TCh",
+				"translate": "sidebar.nav.trade.trade_TCh"
 			},
 
 			{
-				"sref": "app.trade.Trade_TCo",
-				"translate": "sidebar.nav.Trade.Trade_TCo"
+				"sref": "app.trade.trade_TCo",
+				"translate": "sidebar.nav.trade.trade_TCo"
 			},
 
 			{
-				"sref": "app.trade.Trade_MD",
-				"translate": "sidebar.nav.Trade.Trade_MD"
+				"sref": "app.trade.trade_MD",
+				"translate": "sidebar.nav.trade.trade_MD"
 			},
 
 			{
-				"sref": "app.trade.Trade_MCD",
-				"translate": "sidebar.nav.Trade.Trade_MCD"
+				"sref": "app.trade.trade_MCD",
+				"translate": "sidebar.nav.trade.trade_MCD"
 			}
 		],
 
-		"translate": "sidebar.nav.Trade.MENU"
+		"translate": "sidebar.nav.trade.MENU"
 	},
 
 	{
@@ -95,27 +95,28 @@
 		"submenu": 
 		[
 			{
-				"sref": "app.behavior.Behavior_TtD",
-				"translate": "sidebar.nav.Behavior.Behavior_TtD"
+				"sref": "app.behavior.behavior_TtD",
+				"translate": "sidebar.nav.behavior.behavior_TtD"
 			},
 
 			{
-				"sref": "app.behavior.Behavior_AdD",
-				"translate": "sidebar.nav.Behavior.Behavior_AdD"
+				"sref": "app.behavior.behavior_AdD",
+				"translate": "sidebar.nav.behavior.behavior_AdD"
+				
 			},
 
 			{
-				"sref": "app.behavior.Behavior_AdAf",
-				"translate": "sidebar.nav.Behavior.Behavior_AdAf"
+				"sref": "app.behavior.behavior_AdAf",
+				"translate": "sidebar.nav.behavior.behavior_AdAf"
 			},
 
 			{
-				"sref": "app.behavior.Behavior_AfU",
-				"translate": "sidebar.nav.Behavior.Behavior_AfU"
+				"sref": "app.behavior.behavior_AfU",
+				"translate": "sidebar.nav.behavior.behavior_AfU"
 			}
 		],
 
-		"translate": "sidebar.nav.Behavior.MENU"
+		"translate": "sidebar.nav.behavior.MENU"
 	},
 
 	{
@@ -125,22 +126,22 @@
 		"submenu": 
 		[
 			{
-				"sref": "app.portrayal.Portrayal_radar",
-				"translate": "sidebar.nav.Portrayal.Portrayal_radar"
+				"sref": "app.portrayal.portrayal_radar",
+				"translate": "sidebar.nav.portrayal.portrayal_radar"
 			},
 
 			{
-				"sref": "app.portrayal.Portrayal_cloud",
-				"translate": "sidebar.nav.Portrayal.Portrayal_cloud"
+				"sref": "app.portrayal.portrayal_cloud",
+				"translate": "sidebar.nav.portrayal.portrayal_cloud"
 			},
 
 			{
-				"sref": "app.portrayal.Portrayal_connection",
-				"translate": "sidebar.nav.Portrayal.Portrayal_connection"
+				"sref": "app.portrayal.portrayal_connection",
+				"translate": "sidebar.nav.portrayal.portrayal_connection"
 			}
 		],
 
-		"translate": "sidebar.nav.Portrayal.MENU"
+		"translate": "sidebar.nav.portrayal.MENU"
 	},
 
 	{
@@ -151,10 +152,10 @@
 		[
 			{
 				"sref": "app.others.other1",
-				"translate": "sidebar.nav.Others.other1"
+				"translate": "sidebar.nav.others.other1"
 			}
 		],
 
-		"translate": "sidebar.nav.Others.MENU"
+		"translate": "sidebar.nav.others.MENU"
 	}
 ]
