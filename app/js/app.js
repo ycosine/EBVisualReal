@@ -584,7 +584,7 @@
           scripts: {
             'modernizr':          ['vendor/modernizr/modernizr.js'],
             'echarts':        	  ['vendor/echarts/echarts-all.js'],
-            'formater':        	  ['vendor/formater/Myformater-all.js'],
+            'echarts-parser':     ['vendor/echarts/MyParser-all.js'],
             'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
                                    'vendor/simple-line-icons/css/simple-line-icons.css'],
             'datePicker':         ['vendor/jquery-ui/ui/datepicker.js'],
@@ -983,28 +983,26 @@
           .state('app.total', {
               url: '/total',
               title: '总体分析',
-              templateUrl: helper.basepath('total.html')
+              views:{
+              	'':{
+              		templateUrl: helper.basepath('total.html')
+
+              	},
+                'main@app.total':{
+                    templateUrl:helper.basepath('chartBase.html')
+                }
+              },
+              resolve: helper.resolveFor('datePicker','jquery-ui','echarts','echarts-parser','ui.bootstrap-slider')
+
           })
           .state('app.total.Total_show', {
               url: '/Total_show',
-              title: '平台数据展示',
-              views:{ 
-                'main@app.total':{
-                    templateUrl:helper.basepath('chartBase.html')
-               }
-             },
-           	 resolve: helper.resolveFor('datePicker','jquery-ui','echarts','formater','ui.bootstrap-slider')
+              title: '平台数据展示'
 
           })
           .state('app.total.Total_analyze', {
-              url: '/Total_analyze',
-              views:{ 
-                'main@app.total':{
-                    templateUrl:helper.basepath('test.html')
-               }
-              },
-              title: '总体分析',
-              resolve: helper.resolveFor('datePicker','jquery-ui','echarts','formater','ui.bootstrap-slider')
+              url: '/Total_analyze', 
+              title: '总体分析'
           })
           
           .state('app.trade', {
@@ -1091,16 +1089,6 @@
 
       // Setup the layout mode
       $rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h') ;
-
-      // Restore layout settings [*** UNCOMMENT TO ENABLE ***]
-      // if( angular.isDefined($localStorage.layout) )
-      //   $rootScope.app.layout = $localStorage.layout;
-      // else
-      //   $localStorage.layout = $rootScope.app.layout;
-      //
-      // $rootScope.$watch('app.layout', function () {
-      //   $localStorage.layout = $rootScope.app.layout;
-      // }, true);
 
       // Close submenu when sidebar change from collapsed to normal
       $rootScope.$watch('app.layout.isCollapsed', function(newValue) {
@@ -1293,6 +1281,7 @@
             asideToggleOff();
 
             $rootScope.$broadcast('closeSidebarMenu');
+
           });
 
       	  // Autoclose when click outside the sidebar
@@ -1952,45 +1941,13 @@
 
     }
 })();
-(function() {
-    'use strict';
 
-    angular
-        .module('custom', [
-            // request the the entire framework
-            'angle',
-            // or just modules
-            'app.core',
-            'app.sidebar'
-            /*...*/
-        ]);
-})();
-
-// To run this code, edit file index.html or index.jade and change
-// html data-ng-app attribute from angle to myAppName
-// ----------------------------------------------------------------------
-
-(function() {
-    'use strict';
-
-    angular
-        .module('custom')
-        .controller('Controller', Controller);
-
-    Controller.$inject = ['$log'];
-    function Controller($log) {
-        activate();
-        function activate() {
-          $log.log('I\'m a line from custom.js');
-        }
-    }
-})();
 (function() {
 	'use strict';
 
 	angular
 		.module('app.forms')
-		.factory('ChartDataService', function($http,ParserFactory) {
+		.factory('ChartDataService', function($http,$resource,ParserFactory) {
 			var ChartDataService = {};
 			var factory = ParserFactory;
 			ChartDataService.parser = {
@@ -2008,18 +1965,19 @@
 			ChartDataService.getOption = function(formOption) {
 				var that = this;
 				console.log(formOption);
-				that.importParser(formOption.formName);
-				//根据表单名称，注入相应的formater
+				that.importParser(formOption.formName+'_parser');
+				//根据表单名称，注入相应的Parser
 				
 				//从服务器接收到的数据
 				var data = "servlet data";
-				that.parser.createOption(data);
-
+				return that.parser.createOption(data);
+				/*  function load(source) {
+				          return $resource(source, {}, opts).get();
+				        }*/
 				/*return $http
 					.post('LoginServlet', formOption)
 					.then(function(res) {
-							
-						return that.parser.getOption(res.data);
+						return that.parser.createOption(data);
 				});*/
 			};
 
@@ -2035,20 +1993,24 @@
 		.module('app.forms')
 		.controller('ChartFormCtrl', ChartFormCtrl);
 
-	ChartFormCtrl.$inject = ['$state','ChartDataService'];
+	ChartFormCtrl.$inject = ['$rootScope','$resource','ChartDataService'];
 
-	function ChartFormCtrl($state,ChartDataService) {
-				console.log($state);
-
-		//获取当前state中的表单名称
-		function getformName(url){
-			var index = url.lastIndexOf('/');
+	function ChartFormCtrl($rootScope,$resource,ChartDataService) {
+		$rootScope.$on('$stateChangeSuccess',function(){
+			vm.reset($rootScope.$state.current.name);
+		});
+		
+		function subformName(url){
+			var index = url.lastIndexOf('.');
 			var name = url.substring(index+1,url.length);
 			return name;
 		}
 		
 		var vm = this;
-		vm.formName = getformName($state.$current.url.source);
+		vm.reset = function(stateName){
+			vm.formName = subformName(stateName);
+		};
+		vm.formName = subformName($rootScope.$state.current.name);
 		// Slider 
 		vm.slider1 = 5;
 		vm.slider2 = 10;
@@ -2127,17 +2089,20 @@
 				startTime: vm.datestart,
 				endTime: vm.dateend
 			};
-			ChartDataService.getOption(formOption).then(function(option) {
+			var option = ChartDataService.getOption(formOption);
+			vm.updateChart(option);
+			/*ChartDataService.getOption(formOption).then(function(option) {
 				vm.updateChart(option);
-			})
+			})*/
 		};
 		vm.updateChart = function(updateOption) {
 			vm.myChart.setOption(updateOption);
 		};
+		
 		activate();
 
 		function activate() {
-			vm.updateChart(vm.option);
+			vm.getChart();
 		}
 	}
 })();

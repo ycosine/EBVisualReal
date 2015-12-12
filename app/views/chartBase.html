@@ -1,5 +1,5 @@
 <!-- START panel-->
-<div id="panelCharts" class="panel panel-default">
+<div id="panelCharts" class="panel">
 	<div ng-class="{'panel-heading-collapsed':panelCharts}" class="panel-heading">条件筛选
         <paneltool tool-collapse="tool-collapse"></paneltool>
     </div>
@@ -85,22 +85,21 @@
 						<button type="button" class="mb-sm btn btn-primary" ng-click="form.getChart()">生成图表</button>
 					</div>
 					<div class="col-sm-1">
-						<a class=" btn btn-sm btn-default" ng-click="form.getChart()">清空表单条件</a>
+						<a class=" btn btn-sm btn-default" ng-click="form.reset()">重置</a>
 					</div>
 
 				</div>
 			</fieldset>
 		</form>
 	</div>
-
-    
-    
+ 
     </div>
     
 </div>
 <!-- END panel-->
 
-
-<div class="col-sm-12">
-	<div id="echartsBox" style="height:600px;"></div>
+<div id="panelCharts" class="panel">
+	<div class="panel-body">
+		<div id="echartsBox" style="height:600px;"></div>
+	</div>
 </div>
